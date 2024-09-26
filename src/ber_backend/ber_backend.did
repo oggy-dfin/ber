@@ -1,5 +1,6 @@
 service : {
     "tryme" : (nat64) -> (nat64);
     "demonstrate_timeouts" : () -> (bool);
+    "demonstrate_guaranteed_responses" : () -> (bool);
     "busy" : () -> (nat64);
 };

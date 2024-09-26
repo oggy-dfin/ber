@@ -61,3 +61,27 @@ async fn busy() -> u64 {
     }
     x
 }
+
+/// Demonstrate an error when we try to call `tryme` with guaranteed response calls.
+#[ic_cdk::update]
+async fn demonstrate_guaranteed_responses() -> bool {
+    let res: CallResult<(u64,)> = Call::new(ic_cdk::id(), "tryme")
+        .with_guaranteed_response()
+        .with_args((0,))
+        .call()
+        .await;
+    match res {
+        Err((RejectionCode::CanisterError, s)) => {
+            ic_cdk::println!("Canister returned an error: {}", s);
+            true
+        }
+        Err((c, s)) => {
+            ic_cdk::println!("Unexpected error returned by the call: {:?} {:?}", c, s);
+            false
+        }
+        Ok((r,)) => {
+            ic_cdk::println!("Unexpected successful result returned by the call: {:?}", r);
+            false
+        }
+    }
+}
