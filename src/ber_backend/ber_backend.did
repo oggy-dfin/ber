@@ -3,4 +3,7 @@ service : {
     "demonstrate_timeouts" : () -> (bool);
     "demonstrate_guaranteed_responses" : () -> (bool);
     "busy" : () -> (nat64);
+    "deadline_in_replicated_query" : () -> (nat64);
+    "test_deadlines_in_composite_query" : () -> (nat64);
+    "deadline_in_query" : () -> (nat64) query;
 };

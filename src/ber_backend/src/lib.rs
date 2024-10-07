@@ -62,6 +62,28 @@ async fn busy() -> u64 {
     x
 }
 
+#[ic_cdk::query]
+async fn deadline_in_query() -> u64 {
+    ic_cdk::api::call::msg_deadline()
+}
+
+#[ic_cdk::query(composite = true)]
+async fn deadline_of_query_in_composite_query() -> u64 {
+    ic_cdk::api::call::msg_deadline()
+}
+
+#[ic_cdk::query(composite = true)]
+async fn test_deadlines_in_composite_query() -> (u64, u64) {
+    let deadline_in_query = deadline_in_query().await;
+    let deadline_of_query_in_composite_query = deadline_of_query_in_composite_query().await;
+    (deadline_in_query, deadline_of_query_in_composite_query)
+}
+
+#[ic_cdk::update]
+async fn deadline_in_replicated_query() -> u64 {
+    deadline_in_query().await
+}
+
 /// Demonstrate an error when we try to call `tryme` with guaranteed response calls.
 #[ic_cdk::update]
 async fn demonstrate_guaranteed_responses() -> bool {
