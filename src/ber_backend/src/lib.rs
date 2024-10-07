@@ -76,12 +76,14 @@ async fn deadline_in_composite_query() -> u64 {
 async fn test_deadlines_in_composite_query() -> (u64, u64) {
     let deadline_in_query: (u64,) = Call::new(ic_cdk::id(), "deadline_in_query")
         .with_args(((),))
+        .change_timeout(1)
         .call()
         .await
         .expect("Failed to call deadline_in_query");
     let deadline_of_query_in_composite_query: (u64,) =
         Call::new(ic_cdk::id(), "deadline_in_composite_query")
             .with_args(((),))
+            .change_timeout(1)
             .call()
             .await
             .expect("Failed to call deadline_in_composite_query");
@@ -92,6 +94,7 @@ async fn test_deadlines_in_composite_query() -> (u64, u64) {
 async fn deadline_in_replicated_query() -> u64 {
     Call::new(ic_cdk::id(), "deadline_in_query")
         .with_args(((),))
+        .change_timeout(1)
         .call::<(u64,)>()
         .await
         .expect("Failed to call deadline_in_query")
