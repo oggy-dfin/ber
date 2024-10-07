@@ -75,11 +75,13 @@ async fn deadline_in_composite_query() -> u64 {
 #[ic_cdk::query(composite = true)]
 async fn test_deadlines_in_composite_query() -> (u64, u64) {
     let deadline_in_query: (u64,) = Call::new(ic_cdk::id(), "deadline_in_query")
+        .with_args(((),))
         .call()
         .await
         .expect("Failed to call deadline_in_query");
     let deadline_of_query_in_composite_query: (u64,) =
         Call::new(ic_cdk::id(), "deadline_in_composite_query")
+            .with_args(((),))
             .call()
             .await
             .expect("Failed to call deadline_in_composite_query");
@@ -88,11 +90,12 @@ async fn test_deadlines_in_composite_query() -> (u64, u64) {
 
 #[ic_cdk::update]
 async fn deadline_in_replicated_query() -> u64 {
-    let res: (u64,) = Call::new(ic_cdk::id(), "deadline_in_query")
-        .call()
+    Call::new(ic_cdk::id(), "deadline_in_query")
+        .with_args(((),))
+        .call::<(u64,)>()
         .await
-        .expect("Failed to call deadline_in_query");
-    res.0
+        .expect("Failed to call deadline_in_query")
+        .0
 }
 
 /// Demonstrate an error when we try to call `tryme` with guaranteed response calls.
