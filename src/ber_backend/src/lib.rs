@@ -52,14 +52,12 @@ async fn demonstrate_timeouts() -> bool {
 /// to this endpoint
 #[ic_cdk::update]
 async fn busy() -> u64 {
-    const MAX: u64 = 10_000_000_000;
-    let mut x = 0;
-    for _ in 0..MAX {
-        x *= 2;
-        x += 2;
-        x /= 2;
-    }
-    x
+    const ROUNDS: u32 = 2;
+    const INSTRUCTIONS_PER_SLICE: u32 = 2_000_000_000;
+    const TOTAL_INSTRUCTIONS: u64 = ROUNDS as u64 * INSTRUCTIONS_PER_SLICE as u64;
+
+    while ic_cdk::api::performance_counter(0) < TOTAL_INSTRUCTIONS {}
+    ic_cdk::api::performance_counter(0)
 }
 
 #[ic_cdk::query]
