@@ -52,7 +52,7 @@ async fn demonstrate_timeouts() -> bool {
 /// to this endpoint
 #[ic_cdk::update]
 async fn busy() -> u64 {
-    const ROUNDS: u32 = 2;
+    const ROUNDS: u32 = 3;
     const INSTRUCTIONS_PER_SLICE: u32 = 2_000_000_000;
     const TOTAL_INSTRUCTIONS: u64 = ROUNDS as u64 * INSTRUCTIONS_PER_SLICE as u64;
 
